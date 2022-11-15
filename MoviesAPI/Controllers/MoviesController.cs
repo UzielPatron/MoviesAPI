@@ -14,6 +14,7 @@ namespace MoviesAPI.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly IFileStorage _fileStorage;
+        private readonly string container = "movies";
 
         public MoviesController(ApplicationDbContext context, IMapper mapper, IFileStorage fileStorage)
         {
@@ -39,6 +40,31 @@ namespace MoviesAPI.Controllers
 
             MovieDTO movieToShow = _mapper.Map<MovieDTO>(movie);
             return movieToShow;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> PostMovie([FromForm] MovieCreatorDTO movieCreatorDTO)
+        {
+            var movie = _mapper.Map<Movie>(movieCreatorDTO);
+            
+            if(movieCreatorDTO.PosterImg != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await movieCreatorDTO.PosterImg.CopyToAsync(memoryStream);
+                    var content = memoryStream.ToArray();
+                    var extension = Path.GetExtension(movieCreatorDTO.PosterImg.FileName);
+                    var contentType = movieCreatorDTO.PosterImg.ContentType;
+                    movie.PosterImg = await _fileStorage.SaveFile(content, extension, container, contentType);
+                }
+            }
+
+            _context.Add(movie);
+            await _context.SaveChangesAsync();
+
+            var movieDTO = _mapper.Map<MovieDTO>(movie);
+
+            return new CreatedAtRouteResult("getMovie", new { id = movie.Id }, movieDTO);
         }
     }
 }
