@@ -4,7 +4,6 @@ namespace MoviesAPI.DTOs
 {
     public class MoviePatchDTO
     {
-        public int Id { get; set; }
         [Required]
         [StringLength(300)]
         public string Title { get; set; }

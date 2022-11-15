@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using MoviesAPI.DTOs;
 using MoviesAPI.Entities;
 using MoviesAPI.Services;
+using System.Runtime.CompilerServices;
 
 namespace MoviesAPI.Controllers
 {
