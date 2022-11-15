@@ -42,7 +42,7 @@ namespace MoviesAPI.Controllers
         public async Task<ActionResult<ActhorDTO>> GetActhorById(int id)
         {
             Acthor acthor = await _context.Acthors.FirstOrDefaultAsync(acthor => acthor.Id == id);
-            if (acthor == null) return NotFound("No se encontró ningún actor con el Id especificado");
+            if (acthor == null) return NotFound("No se encontró ningún acthor con el Id especificado");
 
             ActhorDTO acthorToShow = _mapper.Map<ActhorDTO>(acthor);
             return acthorToShow;

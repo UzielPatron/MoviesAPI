@@ -62,6 +62,7 @@ namespace MoviesAPI.Controllers
                 }
             }
 
+            AssignActhorsOrder(movie);
             _context.Add(movie);
             await _context.SaveChangesAsync();
 
@@ -74,7 +75,10 @@ namespace MoviesAPI.Controllers
         [HttpPut("{id:int}")]
         public async Task<ActionResult> PutMovie(int id, [FromForm] MovieCreatorDTO movieCreatorDTO)
         {
-            var movieDB = await _context.Movies.FirstOrDefaultAsync(movie => movie.Id == id);
+            var movieDB = await _context.Movies
+                .Include(x => x.MoviesActhors)
+                .Include(x => x.MoviesGenres)
+                .FirstOrDefaultAsync(movie => movie.Id == id);
             if (movieDB == null) return NotFound();
 
             movieDB = _mapper.Map(movieCreatorDTO, movieDB);
@@ -93,6 +97,7 @@ namespace MoviesAPI.Controllers
                 }
             }
 
+            AssignActhorsOrder(movieDB);
             await _context.SaveChangesAsync();
             return NoContent();
         }
@@ -125,6 +130,18 @@ namespace MoviesAPI.Controllers
             _context.Remove(new Movie() { Id = id });
             await _context.SaveChangesAsync();
             return NoContent();
+        }
+
+
+        private void AssignActhorsOrder(Movie movie)
+        {
+            if(movie.MoviesActhors != null)
+            {
+                for(int i = 0; i < movie.MoviesActhors.Count; i++)
+                {
+                    movie.MoviesActhors[i].Order = i;
+                }
+            }
         }
     }
 }

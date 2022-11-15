@@ -11,5 +11,7 @@ namespace MoviesAPI.Entities
         public bool InTheater { get; set; }
         public DateTime ReleaseDate { get; set; }
         public string PosterImg { get; set; }
+        public List<MoviesActhors> MoviesActhors { get; set; }
+        public List<MoviesGenres> MoviesGenres { get; set; }
     }
 }
