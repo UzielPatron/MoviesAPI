@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MoviesAPI.DTOs;
-using MoviesAPI.entities;
 using MoviesAPI.Entities;
 
 namespace MoviesAPI.Helpers
