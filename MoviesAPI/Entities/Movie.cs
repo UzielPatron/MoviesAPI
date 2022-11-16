@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MoviesAPI.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace MoviesAPI.Entitys
 {
@@ -13,5 +14,6 @@ namespace MoviesAPI.Entitys
         public string PosterImg { get; set; }
         public List<MoviesActhors> MoviesActhors { get; set; }
         public List<MoviesGenres> MoviesGenres { get; set; }
+        public List<MoviesMovieTheaters> MoviesMoviesTheaters { get; set; }
     }
 }

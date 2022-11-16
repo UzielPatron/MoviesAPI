@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.EntityFrameworkCore;
+using MoviesAPI.Entities;
 using MoviesAPI.Entitys;
 
 namespace MoviesAPI
@@ -18,6 +19,9 @@ namespace MoviesAPI
 
             modelBuilder.Entity<MoviesGenres>()
                 .HasKey(x => new { x.MovieId, x.GenreId });
+
+            modelBuilder.Entity<MoviesMovieTheaters>()
+                .HasKey(x => new { x.MovieId, x.MovieTheaterId });
 
             SeedData(modelBuilder);
 
@@ -151,7 +155,9 @@ namespace MoviesAPI
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Acthor> Acthors { get; set; }
         public DbSet<Movie> Movies { get; set; }
+        public DbSet<MovieTheater> MovieTheters { get; set; }
         public DbSet<MoviesActhors> MoviesActhors { get; set; }
         public DbSet<MoviesGenres> MoviesGenres { get; set; }
+        public DbSet<MoviesMovieTheaters> MoviesMovieTheaters { get; set; }
     }
 }
