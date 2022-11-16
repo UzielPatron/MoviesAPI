@@ -27,20 +27,20 @@ namespace MoviesAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<ActhorDTO>>> GetAllActhors([FromQuery] PaginationDTO paginationDTO)
+        public async Task<ActionResult<List<ActhorDTO>>> Get([FromQuery] PaginationDTO paginationDTO)
         {
             return await Get<Acthor, ActhorDTO>(paginationDTO);
         }
 
         [HttpGet("{id:int}", Name = "getActhorById")]
-        public async Task<ActionResult<ActhorDTO>> GetActhorById(int id)
+        public async Task<ActionResult<ActhorDTO>> Get(int id)
         {
             return await Get<Acthor, ActhorDTO>(id);
         }
 
 
         [HttpPost]
-        public async Task<ActionResult> PostActhor([FromForm] ActhorCreatorDTO acthorCreatorDTO)
+        public async Task<ActionResult> Post([FromForm] ActhorCreatorDTO acthorCreatorDTO)
         {
             Acthor newActhor = _mapper.Map<Acthor>(acthorCreatorDTO);
             
@@ -67,7 +67,7 @@ namespace MoviesAPI.Controllers
 
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult> PutActhor(int id, [FromForm] ActhorCreatorDTO acthorModified)
+        public async Task<ActionResult> Put(int id, [FromForm] ActhorCreatorDTO acthorModified)
         {
             var acthorDB = await _context.Acthors.FirstOrDefaultAsync(acthor => acthor.Id == id);
             if (acthorDB == null) return NotFound();
@@ -96,14 +96,14 @@ namespace MoviesAPI.Controllers
 
 
         [HttpPatch("{id:int}")]
-        public async Task<ActionResult> PatchActhor(int id, [FromBody] JsonPatchDocument<ActhorPatchDTO> patchDocument)
+        public async Task<ActionResult> Patch(int id, [FromBody] JsonPatchDocument<ActhorPatchDTO> patchDocument)
         {
             return await Patch<Acthor, ActhorPatchDTO>(id, patchDocument);
         }
 
 
         [HttpDelete("{id:int}")]
-        public async Task<ActionResult> DeleteActhor(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             return await Delete<Acthor>(id);
         }

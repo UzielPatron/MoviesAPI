@@ -37,7 +37,7 @@ namespace MoviesAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<MoviesIndexDTO>> GetMovies()
+        public async Task<ActionResult<MoviesIndexDTO>> Get()
         {
             var top = 5;
             var today = DateTime.Today;
@@ -61,7 +61,7 @@ namespace MoviesAPI.Controllers
         }
 
         [HttpGet("filter")]
-        public async Task<ActionResult<List<MovieDTO>>> GetFilterMovies([FromQuery] FilterMovieDTO filterMovieDTO)
+        public async Task<ActionResult<List<MovieDTO>>> Get([FromQuery] FilterMovieDTO filterMovieDTO)
         {
             var moviesQueryable = _context.Movies.AsQueryable();
 
@@ -110,7 +110,7 @@ namespace MoviesAPI.Controllers
         }
 
         [HttpGet("{id:int}", Name = "getMovie")]
-        public async Task<ActionResult<MovieDetailDTO>> GetMovieById(int id)
+        public async Task<ActionResult<MovieDetailDTO>> Get(int id)
         {
             Movie movie = await _context.Movies
                 .Include(x => x.MoviesActhors).ThenInclude(x => x.Acthor)
@@ -125,7 +125,7 @@ namespace MoviesAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> PostMovie([FromForm] MovieCreatorDTO movieCreatorDTO)
+        public async Task<ActionResult> Post([FromForm] MovieCreatorDTO movieCreatorDTO)
         {
             var movie = _mapper.Map<Movie>(movieCreatorDTO);
 
@@ -152,7 +152,7 @@ namespace MoviesAPI.Controllers
 
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult> PutMovie(int id, [FromForm] MovieCreatorDTO movieCreatorDTO)
+        public async Task<ActionResult> Put(int id, [FromForm] MovieCreatorDTO movieCreatorDTO)
         {
             var movieDB = await _context.Movies
                 .Include(x => x.MoviesActhors)
@@ -182,13 +182,13 @@ namespace MoviesAPI.Controllers
         }
 
         [HttpPatch("{id:int}")]
-        public async Task<ActionResult> PatchMovie(int id, [FromBody] JsonPatchDocument<MoviePatchDTO> patchDocument)
+        public async Task<ActionResult> Patch(int id, [FromBody] JsonPatchDocument<MoviePatchDTO> patchDocument)
         {
             return await Patch<Movie, MoviePatchDTO>(id, patchDocument);
         }
 
         [HttpDelete("{id:int}")]
-        public async Task<ActionResult> DeleteMovie(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             return await Delete<Movie>(id);
         }
