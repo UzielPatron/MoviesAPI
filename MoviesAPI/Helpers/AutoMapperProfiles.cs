@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MoviesAPI.DTOs;
+using MoviesAPI.Entities;
 using MoviesAPI.Entitys;
 
 namespace MoviesAPI.Helpers
@@ -10,6 +11,9 @@ namespace MoviesAPI.Helpers
         {
             CreateMap<Genre, GenreDTO>().ReverseMap();
             CreateMap<GenreCreatorDTO, Genre>();
+
+            CreateMap<MovieTheater, MovieTheaterDTO>().ReverseMap();
+            CreateMap<MovieTheaterCreatorDTO, MovieTheater>();
 
             CreateMap<Acthor, ActhorDTO>().ReverseMap();
             CreateMap<ActhorCreatorDTO, Acthor>()
