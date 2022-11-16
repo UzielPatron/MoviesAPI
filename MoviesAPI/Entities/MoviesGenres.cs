@@ -1,4 +1,4 @@
-﻿namespace MoviesAPI.Entities
+﻿namespace MoviesAPI.Entitys
 {
     public class MoviesGenres
     {

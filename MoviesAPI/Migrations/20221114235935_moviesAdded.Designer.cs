@@ -25,7 +25,7 @@ namespace MoviesAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MoviesAPI.Entities.Acthor", b =>
+            modelBuilder.Entity("MoviesAPI.Entitys.Acthor", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -49,7 +49,7 @@ namespace MoviesAPI.Migrations
                     b.ToTable("Acthors");
                 });
 
-            modelBuilder.Entity("MoviesAPI.Entities.Genre", b =>
+            modelBuilder.Entity("MoviesAPI.Entitys.Genre", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -67,7 +67,7 @@ namespace MoviesAPI.Migrations
                     b.ToTable("Genres");
                 });
 
-            modelBuilder.Entity("MoviesAPI.Entities.Movie", b =>
+            modelBuilder.Entity("MoviesAPI.Entitys.Movie", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesAPI.DTOs;
-using MoviesAPI.Entities;
+using MoviesAPI.Entitys;
 using MoviesAPI.Helpers;
 using MoviesAPI.Services;
 using System.Runtime.CompilerServices;
@@ -14,7 +14,7 @@ namespace MoviesAPI.Controllers
 {
     [ApiController]
     [Route("api/movies")]
-    public class MoviesController : ControllerBase
+    public class MoviesController : CustomBaseController
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -28,6 +28,7 @@ namespace MoviesAPI.Controllers
             IFileStorage fileStorage,
             ILogger<MoviesController> logger
             )
+            : base(context, mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -183,31 +184,13 @@ namespace MoviesAPI.Controllers
         [HttpPatch("{id:int}")]
         public async Task<ActionResult> PatchMovie(int id, [FromBody] JsonPatchDocument<MoviePatchDTO> patchDocument)
         {
-            if (patchDocument == null) return BadRequest();
-
-            var movieDB = await _context.Movies.FirstOrDefaultAsync(movie => movie.Id == id);
-            if (movieDB == null) return NotFound();
-
-            var moviePatchDTO = _mapper.Map<MoviePatchDTO>(movieDB);
-            patchDocument.ApplyTo(moviePatchDTO, ModelState);
-
-            var isValid = TryValidateModel(moviePatchDTO);
-            if (!isValid) return BadRequest();
-
-            _mapper.Map(moviePatchDTO, movieDB);
-            await _context.SaveChangesAsync();
-            return NoContent();
+            return await Patch<Movie, MoviePatchDTO>(id, patchDocument);
         }
 
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> DeleteMovie(int id)
         {
-            var exist = await _context.Movies.AnyAsync(movie => movie.Id == id);
-            if (!exist) return NotFound();
-
-            _context.Remove(new Movie() { Id = id });
-            await _context.SaveChangesAsync();
-            return NoContent();
+            return await Delete<Movie>(id);
         }
 
 

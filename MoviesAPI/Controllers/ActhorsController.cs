@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesAPI.DTOs;
-using MoviesAPI.Entities;
+using MoviesAPI.Entitys;
 using MoviesAPI.Helpers;
 using MoviesAPI.Services;
 
@@ -12,14 +12,14 @@ namespace MoviesAPI.Controllers
 {
     [ApiController]
     [Route("api/acthors")]
-    public class ActhorsController : ControllerBase
+    public class ActhorsController : CustomBaseController
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly IFileStorage _fileStorage;
         private readonly string container = "acthors";
 
-        public ActhorsController(ApplicationDbContext context, IMapper mapper, IFileStorage fileStorage)
+        public ActhorsController(ApplicationDbContext context, IMapper mapper, IFileStorage fileStorage) : base(context, mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -29,23 +29,13 @@ namespace MoviesAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<ActhorDTO>>> GetAllActhors([FromQuery] PaginationDTO paginationDTO)
         {
-            var queryable = _context.Acthors.AsQueryable();
-            await HttpContext.InsertPagingParameters(queryable, paginationDTO.NumberEntriesPerPage);
-
-            List<Acthor> acthorsList = await queryable.Paginate(paginationDTO).ToListAsync();
-            List<ActhorDTO> acthorsListToShow = _mapper.Map<List<ActhorDTO>>(acthorsList);
-
-            return acthorsListToShow;
+            return await Get<Acthor, ActhorDTO>(paginationDTO);
         }
 
         [HttpGet("{id:int}", Name = "getActhorById")]
         public async Task<ActionResult<ActhorDTO>> GetActhorById(int id)
         {
-            Acthor acthor = await _context.Acthors.FirstOrDefaultAsync(acthor => acthor.Id == id);
-            if (acthor == null) return NotFound("No se encontró ningún acthor con el Id especificado");
-
-            ActhorDTO acthorToShow = _mapper.Map<ActhorDTO>(acthor);
-            return acthorToShow;
+            return await Get<Acthor, ActhorDTO>(id);
         }
 
 
@@ -108,32 +98,14 @@ namespace MoviesAPI.Controllers
         [HttpPatch("{id:int}")]
         public async Task<ActionResult> PatchActhor(int id, [FromBody] JsonPatchDocument<ActhorPatchDTO> patchDocument)
         {
-            if (patchDocument == null) return BadRequest();
-
-            var acthorDB = await _context.Acthors.FirstOrDefaultAsync(acthor => acthor.Id == id);
-            if(acthorDB == null) return NotFound();
-
-            var acthorDTO = _mapper.Map<ActhorPatchDTO>(acthorDB);
-            patchDocument.ApplyTo(acthorDTO, ModelState);
-            var isValid = TryValidateModel(acthorDTO);
-
-            if (!isValid) return BadRequest(ModelState);
-
-            _mapper.Map(acthorDTO, acthorDB);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return await Patch<Acthor, ActhorPatchDTO>(id, patchDocument);
         }
 
 
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> DeleteActhor(int id)
         {
-            Acthor acthorToDelete = await _context.Acthors.FirstOrDefaultAsync(acthor => acthor.Id == id);
-            _context.Remove(acthorToDelete);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return await Delete<Acthor>(id);
         }
 
     }

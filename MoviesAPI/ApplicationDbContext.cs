@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.EntityFrameworkCore;
-using MoviesAPI.Entities;
+using MoviesAPI.Entitys;
 
 namespace MoviesAPI
 {

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MoviesAPI.Entities
+namespace MoviesAPI.Entitys
 {
-    public class Movie
+    public class Movie : IId
     {
         public int Id { get; set; }
         [Required]
