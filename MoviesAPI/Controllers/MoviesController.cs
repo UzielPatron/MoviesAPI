@@ -8,6 +8,7 @@ using MoviesAPI.Entities;
 using MoviesAPI.Helpers;
 using MoviesAPI.Services;
 using System.Runtime.CompilerServices;
+using System.Linq.Dynamic.Core;
 
 namespace MoviesAPI.Controllers
 {
@@ -18,13 +19,20 @@ namespace MoviesAPI.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly IFileStorage _fileStorage;
+        private readonly ILogger<MoviesController> _logger;
         private readonly string container = "movies";
 
-        public MoviesController(ApplicationDbContext context, IMapper mapper, IFileStorage fileStorage)
+        public MoviesController(
+            ApplicationDbContext context,
+            IMapper mapper,
+            IFileStorage fileStorage,
+            ILogger<MoviesController> logger
+            )
         {
             _context = context;
             _mapper = mapper;
             _fileStorage = fileStorage;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -66,7 +74,7 @@ namespace MoviesAPI.Controllers
                 moviesQueryable = moviesQueryable.Where(x => x.InTheater);
             }
 
-            if (filterMovieDTO.upcomingReleases)
+            if (filterMovieDTO.UpcomingReleases)
             {
                 var today = DateTime.Today;
                 moviesQueryable = moviesQueryable.Where(x => x.ReleaseDate > today);
@@ -78,7 +86,21 @@ namespace MoviesAPI.Controllers
                     .Where(x => x.MoviesGenres.Select(y => y.GenreId).Contains(filterMovieDTO.GenreId));
             }
 
-            await HttpContext.InsertPagingParameters(moviesQueryable, filterMovieDTO.numberEntriesPerPage);
+            if (!string.IsNullOrEmpty(filterMovieDTO.SortField))
+            {
+                var orderType = filterMovieDTO.AscendingOrder ? "ascending" : "descending";
+                try
+                {
+                    moviesQueryable = moviesQueryable.OrderBy($"{filterMovieDTO.SortField} {orderType}");
+                }
+                catch(Exception ex)
+                {
+                    _logger.LogError(ex.Message, ex);
+                    return NotFound($"The field {filterMovieDTO.SortField} was not found");
+                }
+            }
+
+            await HttpContext.InsertPagingParameters(moviesQueryable, filterMovieDTO.NumberEntriesPerPage);
 
             var movies = await moviesQueryable.Paginate(filterMovieDTO.Pagination).ToListAsync();
 

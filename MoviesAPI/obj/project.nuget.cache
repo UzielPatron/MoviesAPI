@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "UDD8bqQJ+h75+/EnmDrmCV1VW4KJ6fSRwdR1d6nVgJm6QWRq5S/Ntb/lGoz84AMf7ZhKCeE2Ib3HwfKX9gC6PQ==",
+  "dgSpecHash": "g0p4kT+t5eZP5zrFEoE/Ezd0q/ZHk8r5ouo6wR0gDcr8Bvy8o2gJAd930OVJ83bCNOJdMvzGlEIdfBfmXhikHA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Patron\\Desktop\\code\\C#\\MoviesAPI\\MoviesAPI\\MoviesAPI.csproj",
   "expectedPackageFiles": [
@@ -71,6 +71,7 @@
     "C:\\Users\\Patron\\.nuget\\packages\\system.identitymodel.tokens.jwt\\6.21.0\\system.identitymodel.tokens.jwt.6.21.0.nupkg.sha512",
     "C:\\Users\\Patron\\.nuget\\packages\\system.io\\4.3.0\\system.io.4.3.0.nupkg.sha512",
     "C:\\Users\\Patron\\.nuget\\packages\\system.io.hashing\\6.0.0\\system.io.hashing.6.0.0.nupkg.sha512",
+    "C:\\Users\\Patron\\.nuget\\packages\\system.linq.dynamic.core\\1.2.23\\system.linq.dynamic.core.1.2.23.nupkg.sha512",
     "C:\\Users\\Patron\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
     "C:\\Users\\Patron\\.nuget\\packages\\system.memory.data\\1.0.2\\system.memory.data.1.0.2.nupkg.sha512",
     "C:\\Users\\Patron\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",

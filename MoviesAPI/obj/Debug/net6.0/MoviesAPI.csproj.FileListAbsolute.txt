@@ -95,3 +95,4 @@ C:\Users\Patron\Desktop\code\C#\MoviesAPI\MoviesAPI\bin\Debug\net6.0\Microsoft.A
 C:\Users\Patron\Desktop\code\C#\MoviesAPI\MoviesAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\Patron\Desktop\code\C#\MoviesAPI\MoviesAPI\bin\Debug\net6.0\Newtonsoft.Json.dll
 C:\Users\Patron\Desktop\code\C#\MoviesAPI\MoviesAPI\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
+C:\Users\Patron\Desktop\code\C#\MoviesAPI\MoviesAPI\bin\Debug\net6.0\System.Linq.Dynamic.Core.dll

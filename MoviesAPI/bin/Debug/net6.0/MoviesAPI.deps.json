@@ -16,7 +16,8 @@
           "Microsoft.EntityFrameworkCore.Tools": "7.0.0",
           "Newtonsoft.Json": "13.0.1",
           "Swashbuckle.AspNetCore": "6.2.3",
-          "System.Data.SqlClient": "4.8.5"
+          "System.Data.SqlClient": "4.8.5",
+          "System.Linq.Dynamic.Core": "1.2.23"
         },
         "runtime": {
           "MoviesAPI.dll": {}
@@ -737,6 +738,14 @@
           }
         }
       },
+      "System.Linq.Dynamic.Core/1.2.23": {
+        "runtime": {
+          "lib/net6.0/System.Linq.Dynamic.Core.dll": {
+            "assemblyVersion": "1.2.23.0",
+            "fileVersion": "1.2.23.0"
+          }
+        }
+      },
       "System.Memory/4.5.4": {},
       "System.Memory.Data/1.0.2": {
         "dependencies": {
@@ -1388,6 +1397,13 @@
       "sha512": "sha512-Rfm2jYCaUeGysFEZjDe7j1R4x6Z6BzumS/vUT5a1AA/AWJuGX71PoGB0RmpyX3VmrGqVnAwtfMn39OHR8Y/5+g==",
       "path": "system.io.hashing/6.0.0",
       "hashPath": "system.io.hashing.6.0.0.nupkg.sha512"
+    },
+    "System.Linq.Dynamic.Core/1.2.23": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ZaHyxSnaLeEXqxon8nU9tiCqJX9Io3LkVFMjGpA7IiXdgX6QKNcouVkfSvTRl2QieM21uwafPpvRQ2Aof4Ce7A==",
+      "path": "system.linq.dynamic.core/1.2.23",
+      "hashPath": "system.linq.dynamic.core.1.2.23.nupkg.sha512"
     },
     "System.Memory/4.5.4": {
       "type": "package",
