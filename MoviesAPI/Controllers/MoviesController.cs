@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesAPI.DTOs;
 using MoviesAPI.Entities;
+using MoviesAPI.Helpers;
 using MoviesAPI.Services;
 using System.Runtime.CompilerServices;
 
@@ -27,12 +28,62 @@ namespace MoviesAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<MovieDTO>>> GetMovies()
+        public async Task<ActionResult<MoviesIndexDTO>> GetMovies()
         {
-            List<Movie> movieList = await _context.Movies.ToListAsync();
-            List<MovieDTO> movieListToShow = _mapper.Map<List<MovieDTO>>(movieList);
+            var top = 5;
+            var today = DateTime.Today;
 
-            return movieListToShow;
+            var upcomingReleases = await _context.Movies
+                .Where(x => x.ReleaseDate > today)
+                .OrderBy(x => x.ReleaseDate)
+                .Take(top)
+                .ToListAsync();
+
+            var inTheaters = await _context.Movies
+                .Where(x => x.InTheater)
+                .Take(top)
+                .ToListAsync();
+
+            var result = new MoviesIndexDTO();
+            result.UpcomingReleases = _mapper.Map<List<MovieDTO>>(upcomingReleases);
+            result.InTheater = _mapper.Map<List<MovieDTO>>(inTheaters);
+
+            return result;
+        }
+
+        [HttpGet("filter")]
+        public async Task<ActionResult<List<MovieDTO>>> GetFilterMovies([FromQuery] FilterMovieDTO filterMovieDTO)
+        {
+            var moviesQueryable = _context.Movies.AsQueryable();
+
+            if (!string.IsNullOrEmpty(filterMovieDTO.Title))
+            {
+                moviesQueryable = moviesQueryable.Where(x => x.Title.Contains(filterMovieDTO.Title));
+            }
+
+            if (filterMovieDTO.InTheater)
+            {
+                moviesQueryable = moviesQueryable.Where(x => x.InTheater);
+            }
+
+            if (filterMovieDTO.upcomingReleases)
+            {
+                var today = DateTime.Today;
+                moviesQueryable = moviesQueryable.Where(x => x.ReleaseDate > today);
+            }
+
+            if(filterMovieDTO.GenreId != 0)
+            {
+                moviesQueryable = moviesQueryable
+                    .Where(x => x.MoviesGenres.Select(y => y.GenreId).Contains(filterMovieDTO.GenreId));
+            }
+
+            await HttpContext.InsertPagingParameters(moviesQueryable, filterMovieDTO.numberEntriesPerPage);
+
+            var movies = await moviesQueryable.Paginate(filterMovieDTO.Pagination).ToListAsync();
+
+            var moviesToShow = _mapper.Map<List<MovieDTO>>(movies);
+            return moviesToShow;
         }
 
         [HttpGet("{id:int}", Name = "getMovie")]
