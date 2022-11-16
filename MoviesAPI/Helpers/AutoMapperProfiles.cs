@@ -2,34 +2,49 @@
 using MoviesAPI.DTOs;
 using MoviesAPI.Entities;
 using MoviesAPI.Entitys;
+using NetTopologySuite;
+using NetTopologySuite.Geometries;
 
 namespace MoviesAPI.Helpers
 {
     public class AutoMapperProfiles : Profile
     {
-        public AutoMapperProfiles()
+        public AutoMapperProfiles(GeometryFactory geometryFactory)
         {
+            // genres
             CreateMap<Genre, GenreDTO>().ReverseMap();
             CreateMap<GenreCreatorDTO, Genre>();
 
-            CreateMap<MovieTheater, MovieTheaterDTO>().ReverseMap();
-            CreateMap<MovieTheaterCreatorDTO, MovieTheater>();
-
+            //actors
             CreateMap<Acthor, ActhorDTO>().ReverseMap();
             CreateMap<ActhorCreatorDTO, Acthor>()
                 .ForMember(x => x.Photo, options => options.Ignore());
             CreateMap<ActhorPatchDTO, Acthor>().ReverseMap();
 
+            // movies
             CreateMap<Movie, MovieDTO>().ReverseMap();
             CreateMap<MovieCreatorDTO, Movie>()
                 .ForMember(x => x.PosterImg, options => options.Ignore())
                 .ForMember(x => x.MoviesGenres, options => options.MapFrom(MapMoviesGenres))
                 .ForMember(x => x.MoviesActhors, options => options.MapFrom(MapMoviesActhors));
             CreateMap<MoviePatchDTO, Movie>().ReverseMap();
-
             CreateMap<Movie, MovieDetailDTO>()
                 .ForMember(x => x.Genres, options => options.MapFrom(MapMoviesGenres))
                 .ForMember(x => x.Acthors, options => options.MapFrom(MapMoviesActhors));
+
+            // movieTheaters
+            CreateMap<MovieTheater, MovieTheaterDTO>()
+                    .ForMember(x => x.Latitude, x => x.MapFrom(y => y.Ubication.Y))
+                    .ForMember(x => x.Longitude, x => x.MapFrom(y => y.Ubication.X));
+            CreateMap<MovieTheaterDTO, MovieTheater>()
+                .ForMember(
+                x => x.Ubication,
+                x => x.MapFrom(y => geometryFactory.CreatePoint(new Coordinate(y.Longitude, y.Latitude))));
+            CreateMap<MovieTheaterCreatorDTO, MovieTheater>()
+                .ForMember(
+                x => x.Ubication,
+                x => x.MapFrom(y => geometryFactory.CreatePoint(new Coordinate(y.Longitude, y.Latitude))));
+
         }
 
         

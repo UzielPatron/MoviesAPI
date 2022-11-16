@@ -1,6 +1,10 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using MoviesAPI;
+using MoviesAPI.Helpers;
 using MoviesAPI.Services;
+using NetTopologySuite;
+using NetTopologySuite.Geometries;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,9 +15,20 @@ builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), 
+    sqlServerOptions => sqlServerOptions.UseNetTopologySuite()
+    ));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddTransient<IFileStorage, AzureFileStorage>();
+builder.Services.AddSingleton<GeometryFactory>(NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326));
+builder.Services.AddSingleton(provider =>
+    new MapperConfiguration(config =>
+    {
+        var geometryFactory = provider.GetRequiredService<GeometryFactory>();
+        config.AddProfile(new AutoMapperProfiles(geometryFactory));
+    }).CreateMapper()
+);
+
 
 var app = builder.Build();
 

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "g0p4kT+t5eZP5zrFEoE/Ezd0q/ZHk8r5ouo6wR0gDcr8Bvy8o2gJAd930OVJ83bCNOJdMvzGlEIdfBfmXhikHA==",
+  "dgSpecHash": "W8/YAx/GSOFyjBWs8Gs0okNvDLap5BL/r9D/Asv6oT2L6VL3pzDkMGRdrcVAp9rDoZ+Y4+Rd6Q7jDNAaP9UMBQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Patron\\Desktop\\code\\C#\\MoviesAPI\\MoviesAPI\\MoviesAPI.csproj",
   "expectedPackageFiles": [
@@ -23,6 +23,7 @@
     "C:\\Users\\Patron\\.nuget\\packages\\microsoft.entityframeworkcore.design\\7.0.0\\microsoft.entityframeworkcore.design.7.0.0.nupkg.sha512",
     "C:\\Users\\Patron\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\7.0.0\\microsoft.entityframeworkcore.relational.7.0.0.nupkg.sha512",
     "C:\\Users\\Patron\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver\\7.0.0\\microsoft.entityframeworkcore.sqlserver.7.0.0.nupkg.sha512",
+    "C:\\Users\\Patron\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver.nettopologysuite\\7.0.0\\microsoft.entityframeworkcore.sqlserver.nettopologysuite.7.0.0.nupkg.sha512",
     "C:\\Users\\Patron\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\7.0.0\\microsoft.entityframeworkcore.tools.7.0.0.nupkg.sha512",
     "C:\\Users\\Patron\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\Patron\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\7.0.0\\microsoft.extensions.caching.abstractions.7.0.0.nupkg.sha512",
@@ -50,6 +51,8 @@
     "C:\\Users\\Patron\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
     "C:\\Users\\Patron\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
     "C:\\Users\\Patron\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
+    "C:\\Users\\Patron\\.nuget\\packages\\nettopologysuite\\2.5.0\\nettopologysuite.2.5.0.nupkg.sha512",
+    "C:\\Users\\Patron\\.nuget\\packages\\nettopologysuite.io.sqlserverbytes\\2.1.0\\nettopologysuite.io.sqlserverbytes.2.1.0.nupkg.sha512",
     "C:\\Users\\Patron\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\Patron\\.nuget\\packages\\newtonsoft.json.bson\\1.0.2\\newtonsoft.json.bson.1.0.2.nupkg.sha512",
     "C:\\Users\\Patron\\.nuget\\packages\\runtime.native.system.data.sqlclient.sni\\4.7.0\\runtime.native.system.data.sqlclient.sni.4.7.0.nupkg.sha512",
