@@ -8,7 +8,6 @@ using MoviesAPI.DTOs.User;
 using MoviesAPI.Entities;
 using MoviesAPI.Entitys;
 using MoviesAPI.Entitys.RelationEntitys;
-using NetTopologySuite;
 using NetTopologySuite.Geometries;
 
 namespace MoviesAPI.Helpers
