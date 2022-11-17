@@ -1,7 +1,11 @@
 ﻿using AutoMapper;
-using MoviesAPI.DTOs;
+using MoviesAPI.DTOs.Acthor;
+using MoviesAPI.DTOs.Genre;
+using MoviesAPI.DTOs.Movie;
+using MoviesAPI.DTOs.MovieTheater;
 using MoviesAPI.Entities;
 using MoviesAPI.Entitys;
+using MoviesAPI.Entitys.RelationEntitys;
 using NetTopologySuite;
 using NetTopologySuite.Geometries;
 

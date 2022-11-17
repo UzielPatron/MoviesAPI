@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MoviesAPI.DTOs;
+using MoviesAPI.DTOs.Genre;
 using MoviesAPI.Entitys;
 
 namespace MoviesAPI.Controllers

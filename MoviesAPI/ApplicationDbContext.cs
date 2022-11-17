@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.EntityFrameworkCore;
 using MoviesAPI.Entities;
 using MoviesAPI.Entitys;
+using MoviesAPI.Entitys.RelationEntitys;
+using NetTopologySuite;
+using NetTopologySuite.Geometries;
 
 namespace MoviesAPI
 {
@@ -30,6 +33,49 @@ namespace MoviesAPI
 
         private void SeedData(ModelBuilder modelBuilder)
         {
+            var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
+
+            modelBuilder.Entity<MovieTheater>()
+               .HasData(new List<MovieTheater>
+               {
+                    new MovieTheater
+                    {
+                        Id = 1,
+                        Name = "Hoyts Rosario",
+                        Ubication = geometryFactory.CreatePoint(new Coordinate(-32.914754, -60.684117))
+                    },
+                    new MovieTheater
+                    {
+                        Id = 2,
+                        Name = "Showcase Imax Olivos",
+                        Ubication = geometryFactory.CreatePoint(new Coordinate(-34.515025, -58.524678))
+                    },
+                    new MovieTheater
+                    {
+                        Id = 3,
+                        Name = "Cinépolis Recoleta",
+                        Ubication = geometryFactory.CreatePoint(new Coordinate(-34.587816, -58.393633))
+                    },
+                    new MovieTheater
+                    {
+                        Id = 4,
+                        Name = "CineMark Palermo",
+                        Ubication = geometryFactory.CreatePoint(new Coordinate(-34.583921, -58.409382))
+                    },
+                    new MovieTheater
+                    {
+                        Id = 5,
+                        Name = "Cine Rio Gallegos",
+                        Ubication = geometryFactory.CreatePoint(new Coordinate(-51.619709, -69.218053))
+                    },
+                    new MovieTheater
+                    {
+                        Id = 6,
+                        Name = "Cinema 3D La Rioja",
+                        Ubication = geometryFactory.CreatePoint(new Coordinate(-29.413288, -66.863795))
+                    }
+               });
+
 
             var adventure = new Genre() { Id = 1, Name = "Adventure" };
             var animation = new Genre() { Id = 2, Name = "Animation" };
@@ -155,7 +201,7 @@ namespace MoviesAPI
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Acthor> Acthors { get; set; }
         public DbSet<Movie> Movies { get; set; }
-        public DbSet<MovieTheater> MovieTheters { get; set; }
+        public DbSet<MovieTheater> MovieTheaters { get; set; }
         public DbSet<MoviesActhors> MoviesActhors { get; set; }
         public DbSet<MoviesGenres> MoviesGenres { get; set; }
         public DbSet<MoviesMovieTheaters> MoviesMovieTheaters { get; set; }

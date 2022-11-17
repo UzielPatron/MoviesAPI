@@ -13,7 +13,7 @@ namespace MoviesAPI.Migrations
         {
             migrationBuilder.AddColumn<Point>(
                 name: "Ubication",
-                table: "MovieTheters",
+                table: "MovieTheaters",
                 type: "geography",
                 nullable: true);
         }
@@ -23,7 +23,7 @@ namespace MoviesAPI.Migrations
         {
             migrationBuilder.DropColumn(
                 name: "Ubication",
-                table: "MovieTheters");
+                table: "MovieTheaters");
         }
     }
 }

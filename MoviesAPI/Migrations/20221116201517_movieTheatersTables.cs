@@ -11,7 +11,7 @@ namespace MoviesAPI.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "MovieTheters",
+                name: "MovieTheaters",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -20,7 +20,7 @@ namespace MoviesAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MovieTheters", x => x.Id);
+                    table.PrimaryKey("PK_MovieTheaters", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -34,9 +34,9 @@ namespace MoviesAPI.Migrations
                 {
                     table.PrimaryKey("PK_MoviesMovieTheaters", x => new { x.MovieId, x.MovieTheaterId });
                     table.ForeignKey(
-                        name: "FK_MoviesMovieTheaters_MovieTheters_MovieTheaterId",
+                        name: "FK_MoviesMovieTheaters_MovieTheaters_MovieTheaterId",
                         column: x => x.MovieTheaterId,
-                        principalTable: "MovieTheters",
+                        principalTable: "MovieTheaters",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -60,7 +60,7 @@ namespace MoviesAPI.Migrations
                 name: "MoviesMovieTheaters");
 
             migrationBuilder.DropTable(
-                name: "MovieTheters");
+                name: "MovieTheaters");
         }
     }
 }

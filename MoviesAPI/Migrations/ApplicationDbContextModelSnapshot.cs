@@ -41,22 +41,45 @@ namespace MoviesAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MovieTheters");
-                });
+                    b.ToTable("MovieTheaters");
 
-            modelBuilder.Entity("MoviesAPI.Entities.MoviesMovieTheaters", b =>
-                {
-                    b.Property<int>("MovieId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MovieTheaterId")
-                        .HasColumnType("int");
-
-                    b.HasKey("MovieId", "MovieTheaterId");
-
-                    b.HasIndex("MovieTheaterId");
-
-                    b.ToTable("MoviesMovieTheaters");
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Hoyts Rosario",
+                            Ubication = (NetTopologySuite.Geometries.Point)new NetTopologySuite.IO.WKTReader().Read("SRID=4326;POINT (-32.914754 -60.684117)")
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Showcase Imax Olivos",
+                            Ubication = (NetTopologySuite.Geometries.Point)new NetTopologySuite.IO.WKTReader().Read("SRID=4326;POINT (-34.515025 -58.524678)")
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Cinépolis Recoleta",
+                            Ubication = (NetTopologySuite.Geometries.Point)new NetTopologySuite.IO.WKTReader().Read("SRID=4326;POINT (-34.587816 -58.393633)")
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "CineMark Palermo",
+                            Ubication = (NetTopologySuite.Geometries.Point)new NetTopologySuite.IO.WKTReader().Read("SRID=4326;POINT (-34.583921 -58.409382)")
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Cine Rio Gallegos",
+                            Ubication = (NetTopologySuite.Geometries.Point)new NetTopologySuite.IO.WKTReader().Read("SRID=4326;POINT (-51.619709 -69.218053)")
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Cinema 3D La Rioja",
+                            Ubication = (NetTopologySuite.Geometries.Point)new NetTopologySuite.IO.WKTReader().Read("SRID=4326;POINT (-29.413288 -66.863795)")
+                        });
                 });
 
             modelBuilder.Entity("MoviesAPI.Entitys.Acthor", b =>
@@ -248,7 +271,7 @@ namespace MoviesAPI.Migrations
                         });
                 });
 
-            modelBuilder.Entity("MoviesAPI.Entitys.MoviesActhors", b =>
+            modelBuilder.Entity("MoviesAPI.Entitys.RelationEntitys.MoviesActhors", b =>
                 {
                     b.Property<int>("ActhorId")
                         .HasColumnType("int");
@@ -348,7 +371,7 @@ namespace MoviesAPI.Migrations
                         });
                 });
 
-            modelBuilder.Entity("MoviesAPI.Entitys.MoviesGenres", b =>
+            modelBuilder.Entity("MoviesAPI.Entitys.RelationEntitys.MoviesGenres", b =>
                 {
                     b.Property<int>("MovieId")
                         .HasColumnType("int");
@@ -455,26 +478,22 @@ namespace MoviesAPI.Migrations
                         });
                 });
 
-            modelBuilder.Entity("MoviesAPI.Entities.MoviesMovieTheaters", b =>
+            modelBuilder.Entity("MoviesAPI.Entitys.RelationEntitys.MoviesMovieTheaters", b =>
                 {
-                    b.HasOne("MoviesAPI.Entitys.Movie", "Movie")
-                        .WithMany("MoviesMoviesTheaters")
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("MovieId")
+                        .HasColumnType("int");
 
-                    b.HasOne("MoviesAPI.Entities.MovieTheater", "MovieTheater")
-                        .WithMany("MoviesMovieTheaters")
-                        .HasForeignKey("MovieTheaterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("MovieTheaterId")
+                        .HasColumnType("int");
 
-                    b.Navigation("Movie");
+                    b.HasKey("MovieId", "MovieTheaterId");
 
-                    b.Navigation("MovieTheater");
+                    b.HasIndex("MovieTheaterId");
+
+                    b.ToTable("MoviesMovieTheaters");
                 });
 
-            modelBuilder.Entity("MoviesAPI.Entitys.MoviesActhors", b =>
+            modelBuilder.Entity("MoviesAPI.Entitys.RelationEntitys.MoviesActhors", b =>
                 {
                     b.HasOne("MoviesAPI.Entitys.Acthor", "Acthor")
                         .WithMany("MoviesActhors")
@@ -493,7 +512,7 @@ namespace MoviesAPI.Migrations
                     b.Navigation("Movie");
                 });
 
-            modelBuilder.Entity("MoviesAPI.Entitys.MoviesGenres", b =>
+            modelBuilder.Entity("MoviesAPI.Entitys.RelationEntitys.MoviesGenres", b =>
                 {
                     b.HasOne("MoviesAPI.Entitys.Genre", "Genre")
                         .WithMany("MoviesGenres")
@@ -510,6 +529,25 @@ namespace MoviesAPI.Migrations
                     b.Navigation("Genre");
 
                     b.Navigation("Movie");
+                });
+
+            modelBuilder.Entity("MoviesAPI.Entitys.RelationEntitys.MoviesMovieTheaters", b =>
+                {
+                    b.HasOne("MoviesAPI.Entitys.Movie", "Movie")
+                        .WithMany("MoviesMoviesTheaters")
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MoviesAPI.Entities.MovieTheater", "MovieTheater")
+                        .WithMany("MoviesMovieTheaters")
+                        .HasForeignKey("MovieTheaterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Movie");
+
+                    b.Navigation("MovieTheater");
                 });
 
             modelBuilder.Entity("MoviesAPI.Entities.MovieTheater", b =>

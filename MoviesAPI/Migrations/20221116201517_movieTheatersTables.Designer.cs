@@ -40,7 +40,7 @@ namespace MoviesAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MovieTheters");
+                    b.ToTable("MovieTheaters");
                 });
 
             modelBuilder.Entity("MoviesAPI.Entities.MoviesMovieTheaters", b =>

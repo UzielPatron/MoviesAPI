@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using MoviesAPI.DTOs;
+using Microsoft.EntityFrameworkCore;
+using MoviesAPI.DTOs.MovieTheater;
 using MoviesAPI.Entities;
+using NetTopologySuite.Geometries;
 
 namespace MoviesAPI.Controllers
 {
@@ -11,11 +13,17 @@ namespace MoviesAPI.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
+        private readonly GeometryFactory _geometryFactory;
 
-        public MovieTheatersController(ApplicationDbContext context, IMapper mapper) : base(context, mapper)
+        public MovieTheatersController(
+            ApplicationDbContext context,
+            IMapper mapper,
+            GeometryFactory geometryFactory)
+            : base(context, mapper)
         {
             _context = context;
             _mapper = mapper;
+            _geometryFactory = geometryFactory;
         }
 
         [HttpGet]
@@ -28,6 +36,27 @@ namespace MoviesAPI.Controllers
         public async Task<ActionResult<MovieTheaterDTO>> Get(int id)
         {
             return await Get<MovieTheater, MovieTheaterDTO>(id);
+        }
+
+        [HttpGet("nearby")]
+        public async Task<ActionResult<List<NearbyMovieTheaterDTO>>> Get([FromQuery] NearbyMovieTheaterFilterDTO filter)
+        {
+            var userUbication = _geometryFactory.CreatePoint(new Coordinate(filter.Logitude, filter.Latitude));
+
+            var movieTheaters = await _context.MovieTheaters
+                .OrderBy(x => x.Ubication.Distance(userUbication))
+                .Where(x => x.Ubication.IsWithinDistance(userUbication, filter.DistanceInKm * 1000))
+                .Select(x => new NearbyMovieTheaterDTO
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Latitude = x.Ubication.Y,
+                    Longitude = x.Ubication.X,
+                    DistanceInMt = Math.Round(x.Ubication.Distance(userUbication))
+                })
+                .ToListAsync();
+
+            return movieTheaters;
         }
 
         [HttpPost]

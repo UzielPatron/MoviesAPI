@@ -3,12 +3,12 @@ using Azure;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MoviesAPI.DTOs;
 using MoviesAPI.Entitys;
 using MoviesAPI.Helpers;
 using MoviesAPI.Services;
 using System.Runtime.CompilerServices;
 using System.Linq.Dynamic.Core;
+using MoviesAPI.DTOs.Movie;
 
 namespace MoviesAPI.Controllers
 {

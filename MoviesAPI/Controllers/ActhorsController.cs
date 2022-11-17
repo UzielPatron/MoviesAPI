@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesAPI.DTOs;
+using MoviesAPI.DTOs.Acthor;
 using MoviesAPI.Entitys;
 using MoviesAPI.Helpers;
 using MoviesAPI.Services;

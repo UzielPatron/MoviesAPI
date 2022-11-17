@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesAPI.DTOs;
-using MoviesAPI.Entitys;
+using MoviesAPI.Entitys.Others;
 using MoviesAPI.Helpers;
 
 namespace MoviesAPI.Controllers
