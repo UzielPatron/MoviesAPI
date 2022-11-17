@@ -4,6 +4,7 @@ using MoviesAPI.DTOs.Acthor;
 using MoviesAPI.DTOs.Genre;
 using MoviesAPI.DTOs.Movie;
 using MoviesAPI.DTOs.MovieTheater;
+using MoviesAPI.DTOs.Reviews;
 using MoviesAPI.DTOs.User;
 using MoviesAPI.Entities;
 using MoviesAPI.Entitys;
@@ -50,9 +51,14 @@ namespace MoviesAPI.Helpers
                 x => x.Ubication,
                 x => x.MapFrom(y => geometryFactory.CreatePoint(new Coordinate(y.Longitude, y.Latitude))));
 
-
             // users
             CreateMap<IdentityUser, UserDTO>();
+
+            // reviews
+            CreateMap<Review, ReviewDTO>()
+                .ForMember(x => x.UserName, x => x.MapFrom(y => y.User.UserName));
+            CreateMap<ReviewDTO, Review>();
+            CreateMap <ReviewCreatorDTO, Review>();
         }
          
         

@@ -49,6 +49,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         ClockSkew = TimeSpan.Zero
     });
 
+builder.Services.AddScoped<ExistMovieAttribute>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

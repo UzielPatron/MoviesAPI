@@ -6,12 +6,14 @@ using Microsoft.EntityFrameworkCore;
 using MoviesAPI.DTOs;
 using MoviesAPI.DTOs.Reviews;
 using MoviesAPI.Entitys;
+using MoviesAPI.Helpers;
 using System.Security.Claims;
 
 namespace MoviesAPI.Controllers
 {
     [ApiController]
     [Route("api/movies/{movieId:int}/reviews")]
+    [ServiceFilter(typeof(ExistMovieAttribute))]
     public class ReviewsController : CustomBaseController
     {
         private readonly IMapper _mapper;
@@ -27,9 +29,6 @@ namespace MoviesAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<ReviewDTO>>> Get(int movieId, [FromQuery] PaginationDTO paginationDTO)
         {
-            var existMovie = await _context.Movies.AnyAsync(x => x.Id == movieId);
-            if (!existMovie) return NotFound("The specified movie id is not found");
-
             var queryable = _context.Reviews.Include(x => x.User).AsQueryable();
             queryable = queryable.Where(x => x.MovieId == movieId);
 
@@ -41,13 +40,10 @@ namespace MoviesAPI.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> Post(int movieId, [FromBody] ReviewCreatorDTO reviewCreatorDTO)
         {
-            var existMovie = await _context.Movies.AnyAsync(x => x.Id == movieId);
-            if (!existMovie) return NotFound("The specified id is not found");
-
             var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
 
             var reviewExist = await _context.Reviews.AnyAsync(x => x.MovieId == movieId && x.UserId == userId);
-            if (!reviewExist) return BadRequest("The user has already written a review of the movie");
+            if (reviewExist) return BadRequest("The user has already written a review of the movie");
         
             var review = _mapper.Map<Review>(reviewCreatorDTO);
             review.MovieId = movieId;
@@ -64,14 +60,11 @@ namespace MoviesAPI.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> Put(int movieId, int reviewId, [FromBody] ReviewCreatorDTO reviewCreatorDTO)
         {
-            var existMovie = await _context.Movies.AnyAsync(x => x.Id == movieId);
-            if (!existMovie) return NotFound("The specified movie id is not found");
-
             var reviewDB = await _context.Reviews.FirstOrDefaultAsync(x => x.Id == reviewId && x.MovieId == movieId);
             if (reviewDB == null) return NotFound("The specified review id is not found");
 
             var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            if (reviewDB.UserId != userId) return Forbid();
+            if (reviewDB.UserId != userId) return BadRequest("You do not have permissions to complete the action");
 
             reviewDB = _mapper.Map(reviewCreatorDTO, reviewDB);
 
@@ -84,14 +77,11 @@ namespace MoviesAPI.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> Delete(int movieId, int reviewId)
         {
-            var existMovie = await _context.Movies.AnyAsync(x => x.Id == movieId);
-            if (!existMovie) return NotFound("The specified movie id is not found");
-
             var reviewDB = await _context.Reviews.FirstOrDefaultAsync(x => x.Id == reviewId && x.MovieId == movieId);
             if (reviewDB == null) return NotFound("The specified review id is not found");
 
             var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            if (reviewDB.UserId != userId) return Forbid();
+            if (reviewDB.UserId != userId) return BadRequest("You do not have permissions to complete the action");
 
             _context.Remove(reviewDB);
             await _context.SaveChangesAsync();

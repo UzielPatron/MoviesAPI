@@ -9,6 +9,7 @@ using MoviesAPI.Services;
 using System.Runtime.CompilerServices;
 using System.Linq.Dynamic.Core;
 using MoviesAPI.DTOs.Movie;
+using MoviesAPI.DTOs;
 
 namespace MoviesAPI.Controllers
 {
@@ -37,6 +38,13 @@ namespace MoviesAPI.Controllers
         }
 
         [HttpGet]
+        public async Task<ActionResult<List<MovieDTO>>> Get([FromQuery] PaginationDTO paginationDTO)
+        {
+            return await Get<Movie, MovieDTO>(paginationDTO);
+        }
+
+
+        [HttpGet("upcoming")]
         public async Task<ActionResult<MoviesIndexDTO>> Get()
         {
             var top = 5;
