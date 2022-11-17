@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MoviesAPI.DTOs;
+using MoviesAPI.DTOs.User;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -38,17 +39,17 @@ namespace MoviesAPI.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<UserToken>> CreateUser([FromBody] UserInfo userModel)
+        public async Task<ActionResult<UserTokenDTO>> CreateUser([FromBody] UserInfoDTO userInfo)
         {
-            var user = new IdentityUser { UserName = userModel.Email, Email = userModel.Email };
-            var result = await _userManager.CreateAsync(user, userModel.Password);
+            var user = new IdentityUser { UserName = userInfo.Email, Email = userInfo.Email };
+            var result = await _userManager.CreateAsync(user, userInfo.Password);
 
-            if (result.Succeded) return await BuildToken(userModel);
+            if (result.Succeeded) return await BuildToken(userInfo);
             else return BadRequest(result.Errors);
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<UserToken>> Login([FromBody] UserInfo userModel)
+        public async Task<ActionResult<UserTokenDTO>> Login([FromBody] UserInfoDTO userModel)
         {
             var result = await _signInManager.PasswordSignInAsync(
                 userModel.Email,
@@ -57,7 +58,7 @@ namespace MoviesAPI.Controllers
                 lockoutOnFailure: false
                 );
 
-            if (result.Succeded) return await BuildToken(userModel);
+            if (result.Succeeded) return await BuildToken(userModel);
             else return BadRequest("Invalid email or password");
         }
 
@@ -73,9 +74,9 @@ namespace MoviesAPI.Controllers
 
         [HttpPost("renewToken")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<ActionResult<UserToken>> RenewToken()
+        public async Task<ActionResult<UserTokenDTO>> RenewToken()
         {
-            var userInfo = new UserInfo
+            var userInfo = new UserInfoDTO
             {
                 Email = HttpContext.User.Identity.Name
             };
@@ -113,7 +114,7 @@ namespace MoviesAPI.Controllers
             return NoContent();
         }
 
-        private async Task<UserToken> BuildToken(UserInfo userInfo)
+        private async Task<UserTokenDTO> BuildToken(UserInfoDTO userInfo)
         {
             var claims = new List<Claim>()
             {
@@ -142,7 +143,7 @@ namespace MoviesAPI.Controllers
                 signingCredentials: credentials
                 );
 
-            return new UserToken()
+            return new UserTokenDTO()
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
                 ExpirationDate = expirationDate

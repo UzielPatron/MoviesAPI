@@ -100,3 +100,9 @@ C:\Users\Patron\Desktop\code\C#\MoviesAPI\MoviesAPI\bin\Debug\net6.0\Microsoft.E
 C:\Users\Patron\Desktop\code\C#\MoviesAPI\MoviesAPI\bin\Debug\net6.0\NetTopologySuite.dll
 C:\Users\Patron\Desktop\code\C#\MoviesAPI\MoviesAPI\bin\Debug\net6.0\NetTopologySuite.IO.SqlServerBytes.dll
 C:\Users\Patron\Desktop\code\C#\MoviesAPI\MoviesAPI\obj\Debug\net6.0\EFCoreSqlServerNetTopologySuite.cs
+C:\Users\Patron\Desktop\code\C#\MoviesAPI\MoviesAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Patron\Desktop\code\C#\MoviesAPI\MoviesAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\Patron\Desktop\code\C#\MoviesAPI\MoviesAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\Patron\Desktop\code\C#\MoviesAPI\MoviesAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\Patron\Desktop\code\C#\MoviesAPI\MoviesAPI\bin\Debug\net6.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\Patron\Desktop\code\C#\MoviesAPI\MoviesAPI\bin\Debug\net6.0\Microsoft.Extensions.Identity.Stores.dll
