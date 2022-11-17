@@ -38,6 +38,24 @@ namespace MoviesAPI.Controllers
             return _mapper.Map<TDTO>(entity);
         }
 
+        protected async Task<List<TDTO>> Get<TEntity, TDTO>(PaginationDTO paginationDTO)
+            where TEntity : class
+        {
+            var queryable = _context.Set<TEntity>().AsQueryable();
+
+            return await Get<TEntity, TDTO>(paginationDTO, queryable);
+        }
+
+        protected async Task<List<TDTO>> Get<TEntity, TDTO>(PaginationDTO paginationDTO, IQueryable<TEntity> queryable)
+            where TEntity : class
+        {
+            await HttpContext.InsertPagingParameters(queryable, paginationDTO.NumberEntriesPerPage);
+
+            var entityList = await queryable.Paginate(paginationDTO).ToListAsync();
+            var entityListToShow = _mapper.Map<List<TDTO>>(entityList);
+
+            return entityListToShow;
+        }
 
         protected async Task<ActionResult> Post<TEntity, TCreatorDTO, TReadDTO>(TCreatorDTO creatorDTO, string routeName)
             where TEntity : class, IId
@@ -77,19 +95,6 @@ namespace MoviesAPI.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
-
-        protected async Task<List<TDTO>> Get<TEntity, TDTO>(PaginationDTO paginationDTO)
-            where TEntity : class
-        {
-            var queryable = _context.Set<TEntity>().AsQueryable();
-            await HttpContext.InsertPagingParameters(queryable, paginationDTO.NumberEntriesPerPage);
-
-            var entityList = await queryable.Paginate(paginationDTO).ToListAsync();
-            var entityListToShow = _mapper.Map<List<TDTO>>(entityList);
-
-            return entityListToShow;
-        }
-
 
         protected async Task<ActionResult> Patch<TEntity, TDTO>(int id, JsonPatchDocument<TDTO> patchDocument)
             where TDTO : class
