@@ -35,44 +35,6 @@ namespace MoviesAPI
 
         private void SeedData(ModelBuilder modelBuilder)
         {
-            string roleAdminId = "9183d1a8-d4ba-4d58-b2f1-b4888cb8aad1";
-            string adminUserId = "68904d84-ebed-441b-98ae-62584102183c";
-            string username = "pedro@picapiedra.com";
-
-            var roleAdmin = new IdentityRole()
-            {
-                Id = roleAdminId,
-                Name = "Admin",
-                NormalizedName = "Admin"
-            };
-
-            var passwordHasher = new PasswordHasher<IdentityUser>();
-
-            var userAdmin = new IdentityUser()
-            {
-                Id = adminUserId,
-                UserName = username,
-                NormalizedUserName = username,
-                Email = username,
-                NormalizedEmail = username,
-                PasswordHash = passwordHasher.HashPassword(null, "Aa123456!")
-            };
-
-            modelBuilder.Entity<IdentityUser>()
-                .HasData(userAdmin);
-
-            modelBuilder.Entity<IdentityRole>()
-                .HasData(roleAdmin);
-
-            modelBuilder.Entity<IdentityUserClaim<string>>()
-                .HasData(new IdentityUserClaim<string>()
-                {
-                    Id = 1,
-                    ClaimType = ClaimTypes.Role,
-                    UserId = adminUserId,
-                    ClaimValue = "Admin"
-                });
-
             var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
 
             modelBuilder.Entity<MovieTheater>()

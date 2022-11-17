@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using MoviesAPI.DTOs.Acthor;
 using MoviesAPI.DTOs.Genre;
 using MoviesAPI.DTOs.Movie;
 using MoviesAPI.DTOs.MovieTheater;
+using MoviesAPI.DTOs.User;
 using MoviesAPI.Entities;
 using MoviesAPI.Entitys;
 using MoviesAPI.Entitys.RelationEntitys;
@@ -49,8 +51,11 @@ namespace MoviesAPI.Helpers
                 x => x.Ubication,
                 x => x.MapFrom(y => geometryFactory.CreatePoint(new Coordinate(y.Longitude, y.Latitude))));
 
-        }
 
+            // users
+            CreateMap<IdentityUser, UserDTO>();
+        }
+         
         
         private List<MoviesGenres> MapMoviesGenres(MovieCreatorDTO movieCreatorDTO, Movie movie)
         {
